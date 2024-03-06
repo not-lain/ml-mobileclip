@@ -22,7 +22,7 @@ class CLIP(nn.Module,PyTorchModelHubMixin):
     """Base class for multi-modal image-text data"""
 
     def __init__(self, cfg: Dict, output_dict: bool = False, *args, **kwargs) -> None:
-        super().__init__(**cfg)
+        super().__init__()
         self.output_dict = output_dict
         self.projection_dim = cfg["embed_dim"]
         if self.projection_dim is None:
