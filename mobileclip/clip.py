@@ -21,19 +21,20 @@ from .image_encoder import MCi
 class CLIP(nn.Module,PyTorchModelHubMixin):
     """Base class for multi-modal image-text data"""
 
-    def __init__(self, cfg: Dict, output_dict: bool = False, *args, **kwargs) -> None:
+    def __init__(self, config: Dict, output_dict: bool = False, *args, **kwargs) -> None:
         super().__init__()
+        self.config = config
         self.output_dict = output_dict
-        self.projection_dim = cfg["embed_dim"]
+        self.projection_dim = config["embed_dim"]
         if self.projection_dim is None:
             raise ValueError("Please specify `embed_dim` in model config.")
 
         self.image_encoder = MCi(
-            model_name=cfg["image_cfg"]["model_name"],
+            model_name=config["image_cfg"]["model_name"],
             projection_dim=self.projection_dim,
         )
         self.text_encoder = TextTransformer(
-            cfg=cfg["text_cfg"], projection_dim=self.projection_dim
+            cfg=config["text_cfg"], projection_dim=self.projection_dim
         )
         self.logit_scale = nn.Parameter(torch.ones([]) * math.log(1.0 / 0.07))
 
