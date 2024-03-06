@@ -66,7 +66,7 @@ def create_model_and_transforms(
     preprocess = Compose(aug_list)
 
     # Build model
-    model = CLIP(cfg=model_cfg)
+    model = CLIP(config=model_cfg)
     model.to(device)
     model.eval()
 
