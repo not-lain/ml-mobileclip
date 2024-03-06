@@ -5,6 +5,7 @@
 """ Model schema in open_clip format for inference only. """
 import math
 from typing import Any, Optional, Dict
+from huggingface_hub import PyTorchModelHubMixin
 
 import torch
 import torch.nn.functional as F
@@ -17,11 +18,11 @@ from mobileclip.text_encoder import (
 from .image_encoder import MCi
 
 
-class CLIP(nn.Module):
+class CLIP(nn.Module,PyTorchModelHubMixin):
     """Base class for multi-modal image-text data"""
 
     def __init__(self, cfg: Dict, output_dict: bool = False, *args, **kwargs) -> None:
-        super().__init__()
+        super().__init__(**cfg)
         self.output_dict = output_dict
         self.projection_dim = cfg["embed_dim"]
         if self.projection_dim is None:
